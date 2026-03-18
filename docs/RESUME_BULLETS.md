@@ -1,53 +1,50 @@
-# Resume SLA - Healthcare DA Bullet Pack (Locked)
+# Resume Highlights
 
-Owner: Bchan
-Date locked: 2026-03-10
-Rule: every number must be explainable from code/docs in this repo.
+This document maps resume bullet points to their corresponding code implementations in this repository.
 
-## Locked 4 bullets
+## Core Achievements
 
-- Built an end-to-end healthcare analytics workflow on 55,500 synthetic encounters across 6 clinical conditions, turning raw clinical events into KPI-ready datasets for readmission, length-of-stay, and utilization reporting.
-- Productized data access with a FastAPI service exposing 11 GET endpoints (root, encounters, lookup dimensions, stats, and search) and dataset-level pagination/filtering for analyst and dashboard workflows.
-- Engineered a dbt star-schema warehouse with 8 core mart models plus 3 custom SQL quality checks (negative LOS, discharge ordering, readmission-window validity), producing reproducible and auditable reporting outputs.
-- Delivered a code-first Power BI semantic model (TMDL/DAX) with table definitions, relationships, and reporting measures over encounter data, keeping KPI logic reviewable in source control.
+### Healthcare Analytics Workflow
+Built an end-to-end healthcare analytics workflow on 55,500 synthetic encounters across 6 clinical conditions, turning raw clinical events into KPI-ready datasets for readmission, length-of-stay, and utilization reporting.
 
-## Optional add-on bullet
+**Code Reference:** [`api/app/main.py`](../api/app/main.py)
 
-- Trained and tracked an XGBoost-based readmission workflow with MLflow metric logging (accuracy and AUC-ROC) and model artifact versioning, keeping model performance and lineage reviewable.
+---
 
-## Claim-to-code traceability
+### FastAPI Data Service
+Productized data access with a FastAPI service exposing 11 GET endpoints (root, encounters, lookup dimensions, stats, and search) and dataset-level pagination/filtering for analyst and dashboard workflows.
 
-1) 55,500 encounters and 6 conditions
-- project-spec.md (lines with "55,500" and "6 clinical conditions")
-- api/README.md (Dataset Info: Total Encounters 55,500; conditions list)
-- api/app/main.py (app description + dataset size text)
+**Code Reference:** [`api/app/main.py`](../api/app/main.py) — 11 route decorators
 
-2) 11 GET endpoints
-- api/app/main.py route decorators:
-	- /, /api/encounters, /api/encounters/{encounter_id}, /api/patients,
-		/api/doctors, /api/hospitals, /api/conditions, /api/medications,
-		/api/insurance, /api/stats, /api/search
+---
 
-3) dbt star schema + 8 core mart models + 3 quality checks
-- dbt-project/models/marts/core/*.sql (8 files)
-- dbt-project/models/staging/stg_healthcare.sql (source dataset context)
-- dbt-project/tests/assert_no_negative_los.sql
-- dbt-project/tests/assert_discharge_after_admission.sql
-- dbt-project/tests/assert_valid_readmission_logic.sql
+### dbt Data Warehouse
+Engineered a dbt star-schema warehouse with 8 core mart models plus 3 custom SQL quality checks (negative LOS, discharge ordering, readmission-window validity), producing reproducible and auditable reporting outputs.
 
-4) Power BI semantic model (TMDL/DAX)
-- powerbi-model/model.tmdl
-- powerbi-model/relationships.tmdl
-- powerbi-model/tables/Patient Encounters.tmdl
+**Code Reference:**
+- Models: [`dbt/models/marts/core/`](../dbt/models/marts/core/)
+- Tests: [`dbt/tests/`](../dbt/tests/)
 
-5) Optional add-on: XGBoost + MLflow logging and model versioning
-- ml-pipeline/src/train.py
-	- imports: xgboost, mlflow, mlflow.xgboost
-	- logs: accuracy + auc_roc metrics
-	- logs model artifact via mlflow.xgboost.log_model(...)
+---
 
-## Interview safety notes
+### Power BI Semantic Model
+Delivered a code-first Power BI semantic model (TMDL/DAX) with table definitions, relationships, and reporting measures over encounter data, keeping KPI logic reviewable in source control.
 
-- Say "synthetic" or "simulated" data explicitly.
-- Do not claim real hospital cost savings.
-- If asked for AUC value, show the run output/MLflow run used for that resume version.
+**Code Reference:** [`powerbi/`](../powerbi/)
+
+---
+
+### Machine Learning (Optional)
+Trained and tracked an XGBoost-based readmission workflow with MLflow metric logging (accuracy and AUC-ROC) and model artifact versioning, keeping model performance and lineage reviewable.
+
+**Code Reference:** [`ml/src/train.py`](../ml/src/train.py)
+
+---
+
+## Data Notice
+
+All data used in this project is **synthetic/simulated**. No real patient information is included.
+
+## Visual Evidence
+
+Screenshots demonstrating these implementations are available in the [`screenshots/`](../screenshots/) directory.
